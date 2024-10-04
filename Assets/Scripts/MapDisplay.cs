@@ -14,10 +14,10 @@ public class MapDisplay : MonoBehaviour
         textureRender.transform.localScale = new Vector3(texture.width, 1, texture.height);
     }
 
-    public void DrawMesh(MeshData meshData, Texture2D texture)
+    public void DrawMesh(GameObject MeshObj, MeshData meshData, Texture2D texture)
     {
-        //meshFilter = MeshObj.GetComponent<MeshFilter>();
-        //meshRenderer = MeshObj.GetComponent<MeshRenderer>();
+        meshFilter = MeshObj.GetComponent<MeshFilter>();
+        meshRenderer = MeshObj.GetComponent<MeshRenderer>();
         meshFilter.sharedMesh = meshData.CreateMesh();
         meshRenderer.sharedMaterial.mainTexture = texture;
     }

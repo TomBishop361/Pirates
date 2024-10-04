@@ -14,7 +14,7 @@ public class MapGenEditor : Editor
         {
             if (mapGen.autoUpdate)
             {
-                mapGen.GenerateMap();
+               // mapGen.GenerateMap();
             }
         }
 

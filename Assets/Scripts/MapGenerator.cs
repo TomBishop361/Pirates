@@ -9,6 +9,7 @@ public class MapGenerator : MonoBehaviour
 
     MeshData _meshData;
     ObjSpawn spawnObjs;
+    public GameObject MeshObj;
 
     public enum DrawMode { NoiseMap, ColourMap, Mesh };
     public DrawMode drawMode;
@@ -107,10 +108,10 @@ public class MapGenerator : MonoBehaviour
                         break;
                         }
                     }
-                }         
+                }
 
-
-                display.DrawMesh(_meshData, TextureGenerator.TextureFromColourMap(colourMap, mapChunkSize, mapChunkSize));
+            GameObject testobj = Instantiate(MeshObj, Vector3.zero, quaternion.identity);
+                display.DrawMesh(testobj,_meshData, TextureGenerator.TextureFromColourMap(colourMap, mapChunkSize, mapChunkSize));
             
                 
         }
