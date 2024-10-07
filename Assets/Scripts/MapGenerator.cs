@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor;
+using UnityEngine.Rendering;
 
 public class MapGenerator : MonoBehaviour
 {
@@ -108,26 +109,47 @@ public class MapGenerator : MonoBehaviour
         else if (drawMode == DrawMode.Mesh)
         {
             _meshData = MeshGen.GenerateTerrainMesh(noiseMap, meshHeightMultiplier, meshHeightCurve, levelOfDetail);
-            
-                for (int x = 0; x < mapChunkSize*mapChunkSize; x++)
+
+            for (int x = 0; x < mapChunkSize * mapChunkSize; x++)
+            {
+                for (int i = 0; i < regions.Length; i++)
                 {
-                    for (int i = 0; i < regions.Length; i++)
+                    if (_meshData.height[x] <= regions[i].height && _meshData.height[x] > 0.3f)
                     {
-                        if (_meshData.height[x] <= regions[i].height)
-                        {
                         regions[i].vertsInRegion.Add(_meshData.vertices[x]);
                         break;
-                        }
                     }
                 }
+            }
 
+
+            //Validates Spawn Location before spawning in Island
+            Collider[] hit = new Collider[1];
+            int timeOut = 0;
+            bool isValidSpawn = false;
+            while (!isValidSpawn)
+            {
                 spawnOffset = new Vector3(UnityEngine.Random.Range(SpawnBounds.x, -SpawnBounds.x), 0, UnityEngine.Random.Range(SpawnBounds.y, -SpawnBounds.y));
+                int objInArea = Physics.OverlapSphereNonAlloc(spawnOffset, mapChunkSize * 2, hit);
+                Debug.Log(hit[0]);
+                timeOut++;
+                if (hit[0] == null)
+                {
+                    isValidSpawn = true;
+                }//Prevents Infinate While Loop
+                else if (timeOut >= 1000)
+                {
+                    Debug.LogError("Failed To Validate Spawn");
+                    break;
+                }
+            }
 
-                GameObject NewIsland = Instantiate(MeshObj, Vector3.zero + spawnOffset, quaternion.identity);
-                
-                display.DrawMesh(NewIsland,_meshData, TextureGenerator.TextureFromColourMap(colourMap, mapChunkSize, mapChunkSize));
-            
-                
+
+            GameObject NewIsland = Instantiate(MeshObj, Vector3.zero + spawnOffset, quaternion.identity);
+
+            display.DrawMesh(NewIsland, _meshData, TextureGenerator.TextureFromColourMap(colourMap, mapChunkSize, mapChunkSize));
+
+
         }
         return display;
 
