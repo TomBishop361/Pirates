@@ -19,7 +19,7 @@ public class MapDisplay : MonoBehaviour
         meshFilter = MeshObj.GetComponent<MeshFilter>();
         meshRenderer = MeshObj.GetComponent<MeshRenderer>();
         meshFilter.sharedMesh = meshData.CreateMesh();
-        meshRenderer.sharedMaterial.mainTexture = texture;
+        meshRenderer.material.mainTexture = texture;
     }
 
 }

@@ -3,6 +3,8 @@ using System.Collections;
 using Unity.Mathematics;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
+using UnityEditor;
 
 public class MapGenerator : MonoBehaviour
 {
@@ -43,6 +45,10 @@ public class MapGenerator : MonoBehaviour
     [Range(0,3)]
     public float b;
 
+    Vector3 spawnOffset;
+    public int IslandIntencity;
+    public Vector2 SpawnBounds;
+
     private void Awake()
     {
         falloffMap = FallOffGenerator.GenerateFallOffMap(mapChunkSize,a,b);
@@ -50,14 +56,19 @@ public class MapGenerator : MonoBehaviour
 
     private void Start()
     {
-        seed = UnityEngine.Random.Range(0, int.MaxValue);
+        
         spawnObjs = GetComponent<ObjSpawn>();
-        MapDisplay map = GenerateMap();
-        spawnObjs.SpawnObjs(regions, map);
-        for (int i = 0; i < regions.Length; i++)
+        for (int i = 0; i < IslandIntencity; i++)
         {
-            regions[i].vertsInRegion.Clear();
+            seed = UnityEngine.Random.Range(0, int.MaxValue);
+            MapDisplay map = GenerateMap();
+            spawnObjs.SpawnObjs(regions, map);
+            for (int j = 0; j < regions.Length; j++)
+            {
+                regions[j].vertsInRegion.Clear();
+            }
         }
+       
     }
 
     public MapDisplay GenerateMap()
@@ -110,8 +121,11 @@ public class MapGenerator : MonoBehaviour
                     }
                 }
 
-            GameObject testobj = Instantiate(MeshObj, Vector3.zero, quaternion.identity);
-                display.DrawMesh(testobj,_meshData, TextureGenerator.TextureFromColourMap(colourMap, mapChunkSize, mapChunkSize));
+                spawnOffset = new Vector3(UnityEngine.Random.Range(SpawnBounds.x, -SpawnBounds.x), 0, UnityEngine.Random.Range(SpawnBounds.y, -SpawnBounds.y));
+
+                GameObject NewIsland = Instantiate(MeshObj, Vector3.zero + spawnOffset, quaternion.identity);
+                
+                display.DrawMesh(NewIsland,_meshData, TextureGenerator.TextureFromColourMap(colourMap, mapChunkSize, mapChunkSize));
             
                 
         }
@@ -132,7 +146,19 @@ public class MapGenerator : MonoBehaviour
             octaves = 0;
         }
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(new Vector3(SpawnBounds.x, 0, 0), new Vector3(-SpawnBounds.x,0,0));
+        Gizmos.DrawLine(new Vector3(0, 0, SpawnBounds.y), new Vector3(0, 0, -SpawnBounds.y));
+        
+
+
+    }
 }
+
+
 
 [System.Serializable]
 public struct TerrainType

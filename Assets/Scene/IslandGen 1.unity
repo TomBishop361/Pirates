@@ -8173,6 +8173,8 @@ MonoBehaviour:
   useFallOffMap: 1
   a: 2.22
   b: 1
+  IslandIntencity: 5
+  SpawnBounds: {x: 10000, y: 10000}
 --- !u!23 &1696101960
 MeshRenderer:
   m_ObjectHideFlags: 0
