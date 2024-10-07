@@ -6,6 +6,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine.Rendering;
+using UnityEngine.Rendering.HighDefinition;
 
 public class MapGenerator : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class MapGenerator : MonoBehaviour
     MeshData _meshData;
     ObjSpawn spawnObjs;
     public GameObject MeshObj;
+
+    public LocalVolumetricFog fog;
 
     public enum DrawMode { NoiseMap, ColourMap, Mesh };
     public DrawMode drawMode;
@@ -122,7 +125,7 @@ public class MapGenerator : MonoBehaviour
                 }
             }
 
-
+            
             //Validates Spawn Location before spawning in Island
             Collider[] hit = new Collider[1];
             int timeOut = 0;
@@ -130,14 +133,14 @@ public class MapGenerator : MonoBehaviour
             while (!isValidSpawn)
             {
                 spawnOffset = new Vector3(UnityEngine.Random.Range(SpawnBounds.x, -SpawnBounds.x), 0, UnityEngine.Random.Range(SpawnBounds.y, -SpawnBounds.y));
-                int objInArea = Physics.OverlapSphereNonAlloc(spawnOffset, mapChunkSize * 2, hit);
+                int objInArea = Physics.OverlapSphereNonAlloc(spawnOffset, mapChunkSize + 1000 , hit);
                 Debug.Log(hit[0]);
                 timeOut++;
                 if (hit[0] == null)
                 {
                     isValidSpawn = true;
                 }//Prevents Infinate While Loop
-                else if (timeOut >= 1000)
+                else if (timeOut >= 10000)
                 {
                     Debug.LogError("Failed To Validate Spawn");
                     break;
