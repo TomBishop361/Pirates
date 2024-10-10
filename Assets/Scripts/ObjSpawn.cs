@@ -21,6 +21,8 @@ public class ObjSpawn : MonoBehaviour
     public List<GameObject> rocksObjs;
     public int rocksDens;
 
+    public GameObject DigSpot;
+    public const int DigSpotDens = 1;
 
     public void SpawnObjs(TerrainType[] regions, MapDisplay map)
     {
@@ -69,6 +71,6 @@ public class ObjSpawn : MonoBehaviour
         }
     }
 
-
+    //spawn in a digspot, Store what vert it spawned at so that i can add to texture map
 
 }

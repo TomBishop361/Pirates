@@ -47,7 +47,7 @@ public partial class @SimpleControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Look"",
-                    ""type"": ""Value"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""c60e0974-d140-4597-a40e-9862193067e9"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
@@ -158,7 +158,7 @@ public partial class @SimpleControls: IInputActionCollection2, IDisposable
                     ""id"": ""578caa03-6827-4797-adfc-a59770c437fe"",
                     ""path"": ""<Pointer>/delta"",
                     ""interactions"": """",
-                    ""processors"": ""ScaleVector2(x=2,y=2)"",
+                    ""processors"": ""ScaleVector2"",
                     ""groups"": """",
                     ""action"": ""Look"",
                     ""isComposite"": false,

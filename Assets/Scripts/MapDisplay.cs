@@ -3,15 +3,17 @@ using System.Collections;
 
 public class MapDisplay : MonoBehaviour
 {
-
+    public Texture2D MapTexture;
     public Renderer textureRender;
     public MeshFilter meshFilter;
     public MeshRenderer meshRenderer;
 
     public void DrawTexture(Texture2D texture)
     {
-        textureRender.sharedMaterial.mainTexture = texture;
-        textureRender.transform.localScale = new Vector3(texture.width, 1, texture.height);
+        //textureRender.sharedMaterial.mainTexture = texture;
+        //textureRender.transform.localScale = new Vector3(texture.width, 1, texture.height);
+        MapTexture = texture;
+        
     }
 
     public void DrawMesh(GameObject MeshObj, MeshData meshData, Texture2D texture)

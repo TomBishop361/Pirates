@@ -15,7 +15,7 @@ public class PlayerControls : MonoBehaviour
     [Header("Mouse")]
     [Range(0,100)]
     public float mouseSense = 100f;
-    Vector2 mouseInput;
+    public Vector2 mouseInput = Vector2.zero;
     float xRotation;
     #endregion
 
@@ -33,6 +33,17 @@ public class PlayerControls : MonoBehaviour
     bool isGrounded;
     float jump;
     #endregion
+
+
+    private static PlayerControls _Instance;
+    public static PlayerControls Instance
+    {
+        get
+        {
+            return _Instance;
+        }
+    }
+
 
     bool _isGrounded
     {
@@ -59,6 +70,17 @@ public class PlayerControls : MonoBehaviour
 
     private void Awake()
     {
+        if(_Instance != null && _Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            _Instance = this;
+        }
+
+
+
         cam = Camera.main;
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -67,7 +89,6 @@ public class PlayerControls : MonoBehaviour
     void OnMove(InputValue value)
     {
         DirectionInput = value.Get<Vector2>();
-        Debug.Log(DirectionInput);
     }
 
     void OnLook(InputValue value)
@@ -87,7 +108,8 @@ public class PlayerControls : MonoBehaviour
 
     private void Update()
     {
-        cameraRotation();
+
+        rotate();
         Move();
         Jump();
     }
@@ -104,7 +126,7 @@ public class PlayerControls : MonoBehaviour
 
         if(isGrounded && velocity.y < 0)
         {
-            velocity.y = -2f;
+            velocity.y = -0f;
         }
     }
 
@@ -112,8 +134,8 @@ public class PlayerControls : MonoBehaviour
     {
 
 
-        Vector3 move = (transform.right * DirectionInput.x) + (transform.forward * DirectionInput.y);
-
+        Vector3 move = (cam.transform.right * DirectionInput.x) + (cam.transform.forward * DirectionInput.y);
+        move.y = 0f;
         controller.Move(move * speed * Time.deltaTime);
 
         velocity.y += gravity * Time.deltaTime;
@@ -121,15 +143,9 @@ public class PlayerControls : MonoBehaviour
         controller.Move(velocity * Time.deltaTime);
     }
 
-    private void cameraRotation()
+    void rotate()
     {
-        mouseInput.x = mouseInput.x * mouseSense * Time.deltaTime;
-        mouseInput.y = mouseInput.y * mouseSense * Time.deltaTime;
-
-        xRotation -= mouseInput.y;
-        xRotation = Mathf.Clamp(xRotation, -80, 80);
-
-        cam.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
-        Player.Rotate(Vector3.up * mouseInput.x);
+        transform.localEulerAngles = new Vector3(0, cam.gameObject.transform.localEulerAngles.y, 0f);
     }
+
 }
