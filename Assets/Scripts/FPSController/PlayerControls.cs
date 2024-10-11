@@ -11,6 +11,8 @@ public class PlayerControls : MonoBehaviour
     Camera cam;
     public CharacterController controller;
 
+    public enum PlayerState{ Walking, Helm,Cannon}
+
     #region Mouse Vars
     [Header("Mouse")]
     [Range(0,100)]
@@ -28,9 +30,9 @@ public class PlayerControls : MonoBehaviour
     Vector3 velocity;
     [SerializeField]
     Transform GroundCheck;
-    float groundDist = 0.1f;
+    float groundDist = 0.2f;
     public LayerMask GroundMask;
-    bool isGrounded;
+    public bool isGrounded;
     float jump;
     #endregion
 
@@ -91,6 +93,14 @@ public class PlayerControls : MonoBehaviour
         DirectionInput = value.Get<Vector2>();
     }
 
+    void OnInteract()
+    {
+        RaycastHit hit;
+        if (Physics.SphereCast(cam.transform.position, 0.08f, Camera.main.transform.forward, out hit, 2.0f))
+        {
+        }
+    }
+
     void OnLook(InputValue value)
     {
         
@@ -101,6 +111,7 @@ public class PlayerControls : MonoBehaviour
     void OnJump(InputValue value)
     {
         jump = value.Get<float>();
+        _isGrounded = false;
         Debug.Log(value.Get<float>());
 
     }
@@ -108,7 +119,6 @@ public class PlayerControls : MonoBehaviour
 
     private void Update()
     {
-
         rotate();
         Move();
         Jump();
@@ -122,11 +132,11 @@ public class PlayerControls : MonoBehaviour
         {
             
             velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
-        }       
+        }
 
-        if(isGrounded && velocity.y < 0)
+        if (isGrounded && velocity.y < 0)
         {
-            velocity.y = -0f;
+            velocity.y = -1f;
         }
     }
 

@@ -30,9 +30,11 @@ public class Floater : MonoBehaviour
         {
 
             float displacementMulti = Mathf.Clamp01((SearchResult.height - transform.position.y) / depthBefSub) * displacementAmt;
+           
+
             rb.AddForceAtPosition(new Vector3(0f, Mathf.Abs(Physics.gravity.y) * displacementMulti, 0f), transform.position, ForceMode.Acceleration);
-            rb.AddForce(displacementMulti * -rb.velocity * waterDrag * Time.fixedDeltaTime, ForceMode.VelocityChange);
-            rb.AddTorque(displacementMulti * -rb.angularVelocity * waterAngularDrag * Time.fixedDeltaTime, ForceMode.VelocityChange);
+            rb.AddForce(displacementMulti * -rb.velocity * waterDrag * Time.deltaTime, ForceMode.VelocityChange);
+            rb.AddTorque(displacementMulti * -rb.angularVelocity * waterAngularDrag * Time.deltaTime, ForceMode.VelocityChange);
         }
     }
 

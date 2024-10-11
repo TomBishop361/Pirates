@@ -69,6 +69,7 @@ Transform:
   - {fileID: 4496510714537558331}
   - {fileID: 7572195425512416670}
   - {fileID: 3405817945415738071}
+  - {fileID: 6833498098043700915}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6350077466814980557
@@ -192,7 +193,8 @@ MonoBehaviour:
   GroundCheck: {fileID: 4496510714537558331}
   GroundMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 65
+  isGrounded: 0
 --- !u!114 &5175259564174517617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,7 +256,7 @@ Transform:
   m_GameObject: {fileID: 5849950354236122260}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -324.44, y: 10.62, z: 113.31}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -498,6 +500,37 @@ MonoBehaviour:
   AutoEnableInputs: 1
   XYAxis: {fileID: 2345856494744509873, guid: 97210cd740af04df697b1fa71c9c9623, type: 3}
   ZAxis: {fileID: 0}
+--- !u!1 &5937377936796692727
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6833498098043700915}
+  m_Layer: 0
+  m_Name: CamFollow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6833498098043700915
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5937377936796692727}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3759483575535658216}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6114978348809494658
 GameObject:
   m_ObjectHideFlags: 0
@@ -509,7 +542,7 @@ GameObject:
   - component: {fileID: 7572195425512416670}
   - component: {fileID: 8776397480840544777}
   - component: {fileID: 3084052140421938246}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Virtual Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -525,7 +558,7 @@ Transform:
   m_GameObject: {fileID: 6114978348809494658}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -551,7 +584,7 @@ MonoBehaviour:
   m_Priority: 10
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 3759483575535658216}
+  m_Follow: {fileID: 6833498098043700915}
   m_Lens:
     FieldOfView: 90
     OrthographicSize: 5
@@ -606,7 +639,7 @@ GameObject:
   - component: {fileID: 3954272190085930342}
   - component: {fileID: 4595438289796487458}
   - component: {fileID: 6338029591819632608}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: cm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -655,8 +688,8 @@ MonoBehaviour:
   m_RecenterTarget: 0
   m_VerticalAxis:
     Value: 0
-    m_SpeedMode: 0
-    m_MaxSpeed: 300
+    m_SpeedMode: 1
+    m_MaxSpeed: 0.15
     m_AccelTime: 0.1
     m_DecelTime: 0.1
     m_InputAxisName: 
@@ -679,8 +712,8 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_HorizontalAxis:
     Value: 0
-    m_SpeedMode: 0
-    m_MaxSpeed: 300
+    m_SpeedMode: 1
+    m_MaxSpeed: 0.1
     m_AccelTime: 0.1
     m_DecelTime: 0.1
     m_InputAxisName: 
