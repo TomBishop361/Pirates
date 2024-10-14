@@ -1821,12 +1821,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 1728057900}
-  depthBefSub: 1
-  displacementAmt: 2.5
-  floaters: 2
+  depthBefSub: 2
+  displacementAmt: 1
+  floaters: 4
   waterDrag: 4
   waterAngularDrag: 4
-  water: {fileID: 2134130774}
+  water: {fileID: 1587394147}
 --- !u!1 &1179267438
 GameObject:
   m_ObjectHideFlags: 0
@@ -1872,12 +1872,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 1728057900}
-  depthBefSub: 1
-  displacementAmt: 2.5
-  floaters: 2
+  depthBefSub: 2
+  displacementAmt: 1
+  floaters: 4
   waterDrag: 4
   waterAngularDrag: 4
-  water: {fileID: 2134130774}
+  water: {fileID: 1587394147}
 --- !u!1 &1189131532
 GameObject:
   m_ObjectHideFlags: 0
@@ -3140,6 +3140,7 @@ MonoBehaviour:
   textureRender: {fileID: 0}
   meshFilter: {fileID: 0}
   meshRenderer: {fileID: 0}
+  ColourMap: []
 --- !u!114 &1696101959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3314,7 +3315,7 @@ MonoBehaviour:
   rocksObjs:
   - {fileID: 7857723176079672709, guid: c8a2815ff94c8cf4c817008d9af097ad, type: 3}
   rocksDens: 20
-  DigSpot: {fileID: 0}
+  DigSpot: {fileID: 2974593207187721927, guid: 8b215c574ed722443a64c05df0340afc, type: 3}
 --- !u!54 &1728057900
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3434,12 +3435,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 1728057900}
-  depthBefSub: 1
-  displacementAmt: 2.5
-  floaters: 2
+  depthBefSub: 2
+  displacementAmt: 1
+  floaters: 4
   waterDrag: 4
   waterAngularDrag: 4
-  water: {fileID: 2134130774}
+  water: {fileID: 1587394147}
 --- !u!114 &1771986628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4144,12 +4145,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 1728057900}
-  depthBefSub: 1
-  displacementAmt: 2.5
-  floaters: 2
+  depthBefSub: 2
+  displacementAmt: 1
+  floaters: 4
   waterDrag: 4
   waterAngularDrag: 4
-  water: {fileID: 2134130774}
+  water: {fileID: 1587394147}
 --- !u!1 &1985359917
 GameObject:
   m_ObjectHideFlags: 0
@@ -4418,164 +4419,6 @@ Transform:
   - {fileID: 6862359636552715089}
   - {fileID: 6862359637658110921}
   m_Father: {fileID: 880915935}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2134130773
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2134130775}
-  - component: {fileID: 2134130774}
-  m_Layer: 4
-  m_Name: Ocean
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2134130774
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2134130773}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8f6fd535518f5540b4bcc3099582f77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  surfaceType: 0
-  geometryType: 2
-  mesh: {fileID: 0}
-  cpuSimulation: 1
-  cpuFullResolution: 1
-  cpuEvaluateRipples: 1
-  timeMultiplier: 1
-  repetitionSize: 500
-  largeWindSpeed: 30
-  largeWindOrientationValue: 0
-  largeCurrentSpeedValue: 0
-  largeCurrentOrientationValue: 0
-  largeChaos: 0
-  largeBand0Multiplier: 1
-  largeBand0FadeToggle: 1
-  largeBand0FadeStart: 1500
-  largeBand0FadeDistance: 3000
-  largeBand1Multiplier: 1
-  largeBand1FadeToggle: 1
-  largeBand1FadeStart: 300
-  largeBand1FadeDistance: 800
-  ripples: 1
-  ripplesWindSpeed: 8
-  ripplesWindOrientationMode: 0
-  ripplesWindOrientationValue: 0
-  ripplesCurrentMode: 0
-  ripplesCurrentSpeedValue: 0
-  ripplesCurrentOrientationValue: 0
-  ripplesChaos: 0.8
-  ripplesFadeToggle: 1
-  ripplesFadeStart: 50
-  ripplesFadeDistance: 200
-  customMaterial: {fileID: 0}
-  startSmoothness: 0.95
-  endSmoothness: 0.85
-  smoothnessFadeStart: 100
-  smoothnessFadeDistance: 500
-  refractionColor: {r: 0, g: 0.5383644, b: 0.9339623, a: 1}
-  maxRefractionDistance: 0.5
-  absorptionDistance: 1.5
-  scatteringColor: {r: 0, g: 0.745283, b: 0.745283, a: 1}
-  ambientScattering: 0.054
-  heightScattering: 0
-  displacementScattering: 0.001
-  directLightTipScattering: 0.499
-  directLightBodyScattering: 0.5
-  caustics: 1
-  causticsIntensity: 0.5
-  causticsPlaneBlendDistance: 1
-  causticsResolution: 256
-  causticsBand: 2
-  virtualPlaneDistance: 4
-  foam: 1
-  simulationFoamAmount: 0.2
-  simulationFoamDrag: 0
-  simulationFoamSmoothness: 1
-  foamMask: {fileID: 0}
-  foamMaskExtent: {x: 100, y: 100}
-  foamMaskOffset: {x: 0, y: 0}
-  windFoamCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.2
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.3
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  foamTexture: {fileID: 0}
-  foamTextureTiling: 0.15
-  waterMask: {fileID: 0}
-  waterMaskExtent: {x: 100, y: 100}
-  waterMaskOffset: {x: 0, y: 0}
-  decalLayerMask: 1
-  lightLayerMask: 1
-  underWater: 1
-  volumeBounds: {fileID: 0}
-  volumeDepth: 50
-  volumePrority: 0
-  transitionSize: 0
-  absorbtionDistanceMultiplier: 18.8
---- !u!4 &2134130775
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2134130773}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2146605457
 MonoBehaviour:
@@ -13054,7 +12897,6 @@ SceneRoots:
   - {fileID: 1696101962}
   - {fileID: 1189131535}
   - {fileID: 866558700}
-  - {fileID: 2134130775}
   - {fileID: 1287932029}
   - {fileID: 14502646}
   - {fileID: 1618764485}

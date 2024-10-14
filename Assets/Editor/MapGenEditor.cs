@@ -20,7 +20,7 @@ public class MapGenEditor : Editor
 
         if (GUILayout.Button("Generate"))
         {
-            mapGen.GenerateMap();
+            //mapGen.GenerateMap();
         }
     }
 

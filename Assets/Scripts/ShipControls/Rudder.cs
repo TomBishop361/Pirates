@@ -22,8 +22,8 @@ public class Rudder : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        Ship.AddTorque(new Vector3(0f, torque, 0f),ForceMode.Acceleration);
-        Ship.AddRelativeForce(new Vector3(-speed, 0, 0),ForceMode.Acceleration);
-        //Ship.AddForce(new Vector3(speed, 0, 0));
+        Ship.AddTorque(new Vector3(0f, torque, 0f),ForceMode.Force);
+        Ship.AddRelativeForce(new Vector3(-speed, 0, 0),ForceMode.Force);
+     
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,8 +11,11 @@ public class PlayerControls : MonoBehaviour
     Transform Player;
     Camera cam;
     public CharacterController controller;
+    public DigSpotTrigger currentDigZone;
+    
 
     public enum PlayerState{ Walking, Helm,Cannon}
+    public LayerMask constantRayLayerMask;
 
     #region Mouse Vars
     [Header("Mouse")]
@@ -20,6 +24,9 @@ public class PlayerControls : MonoBehaviour
     public Vector2 mouseInput = Vector2.zero;
     float xRotation;
     #endregion
+
+    float interacting;
+
 
     #region Move Vars
     [Header("Movement")]
@@ -93,12 +100,16 @@ public class PlayerControls : MonoBehaviour
         DirectionInput = value.Get<Vector2>();
     }
 
-    void OnInteract()
+    void OnInteract(InputValue value)
     {
-        RaycastHit hit;
-        if (Physics.SphereCast(cam.transform.position, 0.08f, Camera.main.transform.forward, out hit, 2.0f))
-        {
-        }
+        interacting = value.Get<float>();
+
+
+        //RaycastHit hit;
+        //if (Physics.SphereCast(cam.transform.position, 0.08f, Camera.main.transform.forward, out hit, 2.0f))
+        //{
+
+        //}
     }
 
     void OnLook(InputValue value)
@@ -116,9 +127,31 @@ public class PlayerControls : MonoBehaviour
 
     }
 
+    private void FixedUpdate()
+    {
+        ConstantRaycast();
+    }
+
+    private void ConstantRaycast()
+    {
+        RaycastHit hit;
+        if (Physics.SphereCast(cam.transform.position, 0.08f, Camera.main.transform.forward, out hit, 2.0f,constantRayLayerMask))
+        {
+            if (hit.transform.CompareTag("Chest"))
+            {
+                TreasureScript Chest =  hit.transform.GetComponent<TreasureScript>();
+                Chest.isObserved = true;
+                if (interacting == 1) {
+                    Chest.interacting = true;
+                }
+            }
+            
+        }
+    }
 
     private void Update()
     {
+        
         rotate();
         Move();
         Jump();
@@ -158,4 +191,6 @@ public class PlayerControls : MonoBehaviour
         transform.localEulerAngles = new Vector3(0, cam.gameObject.transform.localEulerAngles.y, 0f);
     }
 
+
+    
 }

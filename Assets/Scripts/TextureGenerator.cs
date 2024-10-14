@@ -32,4 +32,25 @@ public static class TextureGenerator
         return TextureFromColourMap(colourMap, width, height);
     }
 
+    public static Texture2D EditTexture(MeshData meshdata, Vector3 digSpot, Color[] colourmap)
+    {
+        int indx = 0;        
+        for (int i = 0; i < meshdata.vertices.Length-1; i++)
+        {            
+            if (meshdata.vertices[i] == digSpot)
+            {                
+                indx = i;                
+            }
+        }
+        //Create Cross
+        colourmap[indx] = Color.red;
+        colourmap[indx + 242] = Color.red;
+        colourmap[indx + 240] = Color.red;
+        colourmap[indx - 242] = Color.red;
+        colourmap[indx - 240] = Color.red;
+
+        Texture2D newMap = TextureFromColourMap(colourmap, 241, 241);
+        return newMap;
+    }
+
 }

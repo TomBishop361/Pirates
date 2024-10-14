@@ -27,18 +27,20 @@ public class ObjSpawn : MonoBehaviour
     public const int DigSpotDens = 1;
     List<Vector3> unusedVerts = new List<Vector3>();
     Vector3[] FreeVerts;
-    public void SpawnObjs(TerrainType[] regions, MapDisplay map)
+    public Vector3 SpawnObjs(TerrainType[] regions, MapDisplay map)
     {
 
         Terrain = map.meshRenderer.gameObject;
-        unusedVerts = new List<Vector3>();
+        unusedVerts = new List<Vector3>();       
 
         unusedVerts.AddRange(SpawnObjs(regions[1].vertsInRegion,beachDens,beachObjs));
 
         unusedVerts.AddRange(SpawnObjs(regions[2].vertsInRegion,GrassDens,GrassObjs));
 
-        unusedVerts.AddRange(SpawnObjs(regions[3].vertsInRegion,WoodsDens,WoodsObjs));      
+        unusedVerts.AddRange(SpawnObjs(regions[3].vertsInRegion,WoodsDens,WoodsObjs));
 
+
+        return SpawnDigSpot(unusedVerts);
         
     }
 
@@ -47,7 +49,7 @@ public class ObjSpawn : MonoBehaviour
 
         for (int i = 0; i < objDense; i++)
         {
-            GameObject NewBeachObj = Instantiate(spawnobjs[Random.Range(0, spawnobjs.Count)], Terrain.transform, false);  //,
+            GameObject NewBeachObj = Instantiate(spawnobjs[Random.Range(0, spawnobjs.Count)], Terrain.transform, false);  
             int random = Random.Range(0, vertsInRegion.Count);
             NewBeachObj.transform.localPosition = vertsInRegion[random];
             NewBeachObj.transform.localScale = Vector3.one * 0.5f;
@@ -59,8 +61,11 @@ public class ObjSpawn : MonoBehaviour
     }
 
     //spawn in a digspot, Store what vert it spawned at so that i can add to texture map
-    private void SpawnDigSpot(TerrainType[] regions)
+    private Vector3 SpawnDigSpot(List<Vector3> verts)
     {
-        Vector3[] Verts = new Vector3[regions[1].vertsInRegion.Count+ regions[2].vertsInRegion.Count + regions[3].vertsInRegion.Count];
+        GameObject digSpot = Instantiate(DigSpot, Terrain.transform, false);
+        int random = Random.Range(0, verts.Count);
+        digSpot.transform.localPosition = verts[random];
+        return verts[random];
     }
 }

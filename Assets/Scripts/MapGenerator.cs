@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
+using System.Runtime.CompilerServices;
 
 public class MapGenerator : MonoBehaviour
 {
@@ -68,47 +69,79 @@ public class MapGenerator : MonoBehaviour
     {
 
         spawnObjs = GetComponent<ObjSpawn>();
+        int dictionaryIndex = 0;
         for (int i = 0; i < IslandIntencity; i++)
         {
             seed = UnityEngine.Random.Range(0, int.MaxValue);
-            MapDisplay map = GenerateMap();
+            MapDisplay map = GenerateMap(i);
             if (map != null)
             {
-                spawnObjs.SpawnObjs(regions, map);
+                
+                Vector3 digSpot = spawnObjs.SpawnObjs(regions, map);
                 for (int j = 0; j < regions.Length; j++)
                 {
                     regions[j].vertsInRegion.Clear();
                 }
+
+                IslandInfo[IslandInfo.ElementAt(dictionaryIndex).Key] = TextureGenerator.EditTexture(map.meshData, digSpot, map.ColourMap);
+                dictionaryIndex++;
             }
         }
-        
-        
+        CreateIslandMap2D();
+
+
     }
 
 
 
 
-    public void CreateIslandMap2D(GameObject island)
+    public void CreateIslandMap2D()//GameObject island
     {
-        //foreach (Texture2D IslandMap in IslandInfo.Values)
-        //{
+        foreach (Texture2D IslandMap in IslandInfo.Values)
+        {
 
             GameObject Map = new GameObject();
             MeshRenderer meshRenderer = Map.AddComponent<MeshRenderer>();
             MeshFilter mFilter = Map.AddComponent<MeshFilter>();
             mFilter.mesh = mesh;
-            meshRenderer.material.mainTexture = IslandInfo[island];
+            meshRenderer.material.mainTexture = IslandMap;//IslandInfo[island];
             //Transforms to align with island facing north
             Map.transform.localScale = new Vector3(-1, 1, 0.06f);
             Map.transform.localEulerAngles = new Vector3(0, 0, 180f);
 
             Maps.Add(Map);
 
-        //}
+        }
     }
 
-    public MapDisplay GenerateMap()
+    public MapDisplay GenerateMap(int p)
     {
+
+        //Validates Spawn Location before spawning in Island
+        Collider[] hit = new Collider[1];
+        int timeOut = 0;
+        bool isValidSpawn = false;
+        while (!isValidSpawn)
+        {
+            spawnOffset = new Vector3((int)UnityEngine.Random.Range(SpawnBounds.x, -SpawnBounds.x), 0, (int)UnityEngine.Random.Range(SpawnBounds.y, -SpawnBounds.y));
+            int objInArea = Physics.OverlapSphereNonAlloc(spawnOffset, (mapChunkSize * 5), hit);
+            timeOut++;
+
+            if (hit[0] == null)
+            {
+                isValidSpawn = true;
+                successfulIslandSpawns++;
+                break;
+
+            }//Prevents Infinate While Loop
+            else if (timeOut >= 100000)
+            {
+                Debug.LogError("Failed To Validate Spawn. Too many attempts");
+                return null;
+            }
+        }
+
+
         float[,] noiseMap = perlinNoise.GenerateNoiseMap(mapChunkSize, mapChunkSize, seed, noiseScale, octaves, persistance, lacunarity, offset);
         Color[] colourMap = new Color[mapChunkSize * mapChunkSize];
         Color[] MeshColourMap = new Color[mapChunkSize * mapChunkSize];
@@ -160,34 +193,11 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
-
-        //Validates Spawn Location before spawning in Island
-        Collider[] hit = new Collider[1];
-        int timeOut = 0;
-        bool isValidSpawn = false;
-        while (!isValidSpawn)
-        {
-            spawnOffset = new Vector3((int)UnityEngine.Random.Range(SpawnBounds.x, -SpawnBounds.x), 0, (int)UnityEngine.Random.Range(SpawnBounds.y, -SpawnBounds.y));
-            int objInArea = Physics.OverlapSphereNonAlloc(spawnOffset, (mapChunkSize * 5), hit);
-            timeOut++;
-           
-            if (hit[0] == null)
-            {
-                isValidSpawn = true;
-                successfulIslandSpawns++;
-                break;
-
-            }//Prevents Infinate While Loop
-            else if (timeOut >= 100000)
-            {
-                Debug.LogError("Failed To Validate Spawn. Too many attempts");
-                return null;
-            }
-        }
-
         //
+        display.meshData = _meshData;
+        display.ColourMap = colourMap;
         GameObject NewIsland = Instantiate(MeshObj, Vector3.zero + spawnOffset, quaternion.identity);
-
+        NewIsland.gameObject.name = p.ToString();
         display.DrawMesh(NewIsland, _meshData, TextureGenerator.TextureFromColourMap(MeshColourMap, mapChunkSize, mapChunkSize));
         IslandInfo.Add(NewIsland, TextureGenerator.TextureFromColourMap(colourMap, mapChunkSize, mapChunkSize));
 

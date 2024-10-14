@@ -67,7 +67,7 @@ public partial class @SimpleControls: IInputActionCollection2, IDisposable
                     ""name"": ""Interact"",
                     ""type"": ""Value"",
                     ""id"": ""e9fac068-36e3-4a04-acf9-fff12f466980"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
