@@ -176,7 +176,7 @@ public class MapGenerator : MonoBehaviour
             }
         }
         
-        MapDisplay display = FindObjectOfType<MapDisplay>();
+        MapDisplay display = FindFirstObjectByType<MapDisplay>();
         
 
         _meshData = MeshGen.GenerateTerrainMesh(noiseMap, meshHeightMultiplier, meshHeightCurve, levelOfDetail);
@@ -200,6 +200,7 @@ public class MapGenerator : MonoBehaviour
         NewIsland.gameObject.name = p.ToString();
         display.DrawMesh(NewIsland, _meshData, TextureGenerator.TextureFromColourMap(MeshColourMap, mapChunkSize, mapChunkSize));
         IslandInfo.Add(NewIsland, TextureGenerator.TextureFromColourMap(colourMap, mapChunkSize, mapChunkSize));
+        NewIsland.AddComponent<MeshCollider>().sharedMesh = _meshData.mesh;
 
         return display;
     }

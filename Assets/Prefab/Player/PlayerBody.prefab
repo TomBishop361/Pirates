@@ -184,6 +184,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player: {fileID: 8785254096240645078}
   controller: {fileID: 7846543056043597729}
+  currentDigZone: {fileID: 0}
+  constantRayLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   mouseSense: 15
   mouseInput: {x: 0, y: 0}
   speed: 12
@@ -192,7 +196,7 @@ MonoBehaviour:
   GroundCheck: {fileID: 840246114156794226}
   GroundMask:
     serializedVersion: 2
-    m_Bits: 65
+    m_Bits: 1
   isGrounded: 0
 --- !u!114 &9037455497697395135
 MonoBehaviour:

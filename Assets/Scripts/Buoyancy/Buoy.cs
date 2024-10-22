@@ -22,18 +22,18 @@ public class Floater : MonoBehaviour
 
         rb.AddForceAtPosition(Physics.gravity / floaters, transform.position, ForceMode.Acceleration);
 
-        Search.startPosition = transform.position;
+        Search.startPositionWS = transform.position;
 
-        water.FindWaterSurfaceHeight(Search, out SearchResult);
+        water.ProjectPointOnWaterSurface(Search, out SearchResult);
 
-        if (transform.position.y < SearchResult.height)
+        if (transform.position.y < SearchResult.projectedPositionWS.y)
         {
 
-            float displacementMulti = Mathf.Clamp01((SearchResult.height - transform.position.y) / depthBefSub) * displacementAmt;
-           
+            float displacementMulti = Mathf.Clamp01((SearchResult.projectedPositionWS.y - transform.position.y) / depthBefSub) * displacementAmt;
+
 
             rb.AddForceAtPosition(new Vector3(0f, Mathf.Abs(Physics.gravity.y) * displacementMulti, 0f), transform.position, ForceMode.Acceleration);
-            rb.AddForce(displacementMulti * -rb.velocity * waterDrag * Time.deltaTime, ForceMode.VelocityChange);
+            rb.AddForce(displacementMulti * -rb.linearVelocity * waterDrag * Time.deltaTime, ForceMode.VelocityChange);
             rb.AddTorque(displacementMulti * -rb.angularVelocity * waterAngularDrag * Time.deltaTime, ForceMode.VelocityChange);
         }
     }

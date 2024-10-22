@@ -14,18 +14,25 @@ public class TreasureScript : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isObserved && UI.gameObject.activeSelf == false) {
+        if (isObserved && UI.gameObject.activeSelf == false)
+        {
             UI.gameObject.SetActive(true);
-        } else if (!isObserved && UI.gameObject.activeSelf == true)
+        }
+        else if (!isObserved && UI.gameObject.activeSelf == true)
         {
             UI.gameObject.SetActive(false);
         }
         if (interacting)
         {
             ring.fillAmount += 1f * Time.deltaTime;
-        }else if (!interacting)
+        }
+        else if (!interacting)
         {
             ring.fillAmount = 0;
+        }
+        if (ring.fillAmount >= 1)
+        {
+            PlayerControls.Instance.PickUp(transform.gameObject);
         }
 
 
@@ -34,6 +41,6 @@ public class TreasureScript : MonoBehaviour
     }
     private void LateUpdate()
     {
-       
+
     }
 }
