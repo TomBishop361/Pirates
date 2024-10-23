@@ -121,8 +121,8 @@ public class PlayerControls : MonoBehaviour
 
     void OnFire(InputValue value)
     {
-        Debug.Log("Workin");
-        if (currentDigZone != null)
+        
+        if (currentDigZone != null && EquipedTool == Tools[2]) // tool[2] == spade
         {
             currentDigZone.dig();
         }
@@ -204,6 +204,16 @@ public class PlayerControls : MonoBehaviour
         transform.localEulerAngles = new Vector3(0, cam.gameObject.transform.localEulerAngles.y, 0f);
     }
 
+    void OnSwapWeapon(InputValue value)
+    {
+        if (value.Get<float>() > 0)
+        {
+            int input = (int)value.Get<float>() - 1;
+            EquipedTool.SetActive(false);
+            if (Tools[input] != null) EquipedTool = Tools[input];
+            EquipedTool.SetActive(true);
+        }
+    }
 
 
     void OnDrop(InputValue value)

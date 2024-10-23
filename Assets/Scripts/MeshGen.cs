@@ -66,6 +66,7 @@ public class MeshData
         triangles[triangleIndex + 1] = b;
         triangles[triangleIndex + 2] = c;
         triangleIndex += 3;
+        
     }
 
     public Mesh CreateMesh()

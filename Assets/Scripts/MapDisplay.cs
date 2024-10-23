@@ -26,4 +26,10 @@ public class MapDisplay : MonoBehaviour
         meshRenderer.material.mainTexture = texture;
     }
 
+    public void DrawMesh(GameObject MeshObj, MeshData meshData)
+    {
+        meshFilter = MeshObj.GetComponent<MeshFilter>();        
+        meshFilter.sharedMesh = meshData.CreateMesh();        
+    }
+
 }

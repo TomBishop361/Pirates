@@ -36,21 +36,21 @@ public class DigSpotTrigger : MonoBehaviour
         switch (digCount)
         {
             case 0:
-                InstantiatedTreasure = Instantiate(Treasure, transform, false);
-                InstantiatedTreasure.transform.localPosition = Vector3.zero;
+                InstantiatedTreasure = Instantiate(Treasure, null, false);
+                InstantiatedTreasure.transform.position = transform.position + (Vector3.down * 0.5f) ;
                 digCount++;
                 break;
             case 1:
-                InstantiatedTreasure.transform.localPosition += new Vector3(0, 0.25f, 0);
+                InstantiatedTreasure.transform.position += (Vector3.up*0.25f);
                 digCount++;
                 break;
 
             case 2:
-                InstantiatedTreasure.transform.localPosition += new Vector3(0, 0.25f, 0);
+                InstantiatedTreasure.transform.position += (Vector3.up * 0.25f);
                 digCount++;
                 break;
             case 3:
-                InstantiatedTreasure.transform.localPosition = new Vector3(0, 1, 0);
+                InstantiatedTreasure.transform.position += (Vector3.up * 0.25f);
                 Destroy(this);
                 break;
         }

@@ -19,7 +19,7 @@ public class Floater : MonoBehaviour
 
     private void FixedUpdate()
     {
-
+        
         rb.AddForceAtPosition(Physics.gravity / floaters, transform.position, ForceMode.Acceleration);
 
         Search.startPositionWS = transform.position;

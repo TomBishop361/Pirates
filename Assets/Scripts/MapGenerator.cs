@@ -8,6 +8,7 @@ using UnityEditor;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
 using System.Runtime.CompilerServices;
+using static UnityEditor.MaterialProperty;
 
 public class MapGenerator : MonoBehaviour
 {
@@ -141,7 +142,7 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
-
+        //  Generates noise then create colour map  and height map
         float[,] noiseMap = perlinNoise.GenerateNoiseMap(mapChunkSize, mapChunkSize, seed, noiseScale, octaves, persistance, lacunarity, offset);
         Color[] colourMap = new Color[mapChunkSize * mapChunkSize];
         Color[] MeshColourMap = new Color[mapChunkSize * mapChunkSize];
@@ -176,11 +177,15 @@ public class MapGenerator : MonoBehaviour
             }
         }
         
+
         MapDisplay display = FindFirstObjectByType<MapDisplay>();
-        
+        GameObject NewIsland = Instantiate(MeshObj, Vector3.zero + spawnOffset, quaternion.identity);
+        LODGroup group = NewIsland.GetComponent<LODGroup>();
+      
 
         _meshData = MeshGen.GenerateTerrainMesh(noiseMap, meshHeightMultiplier, meshHeightCurve, levelOfDetail);
 
+        //Sorting into regions
         for (int x = 0; x < mapChunkSize * mapChunkSize; x++)
         {
             for (int i = 0; i < regions.Length; i++)
@@ -192,15 +197,42 @@ public class MapGenerator : MonoBehaviour
                 }
             }
         }
-
         //
         display.meshData = _meshData;
         display.ColourMap = colourMap;
-        GameObject NewIsland = Instantiate(MeshObj, Vector3.zero + spawnOffset, quaternion.identity);
-        NewIsland.gameObject.name = p.ToString();
-        display.DrawMesh(NewIsland, _meshData, TextureGenerator.TextureFromColourMap(MeshColourMap, mapChunkSize, mapChunkSize));
-        IslandInfo.Add(NewIsland, TextureGenerator.TextureFromColourMap(colourMap, mapChunkSize, mapChunkSize));
+
+
+        //Creating LOD meshes and adding to LOD group 
+        LOD[] lods = new LOD[5];
+        for (int i = 0; i < 5; i++)
+        {
+            MeshData LoDMeshData;
+            if (i == 0) LoDMeshData = _meshData;
+
+            else {
+                LoDMeshData = MeshGen.GenerateTerrainMesh(noiseMap, meshHeightMultiplier, meshHeightCurve, i);
+            }
+
+            GameObject go = GameObject.CreatePrimitive(PrimitiveType.Plane);
+            go.transform.localScale = Vector3.one*5 ;
+            go.transform.parent = NewIsland.transform;
+            go.transform.localPosition = Vector3.zero;
+            display.DrawMesh(go, LoDMeshData, TextureGenerator.TextureFromColourMap(MeshColourMap, mapChunkSize, mapChunkSize));
+            Renderer[] renderers = new Renderer[1];
+            renderers[0] = go.GetComponent<Renderer>();
+            lods[i] = new LOD(1.0f / (i + 2), renderers);
+        }
+        group.SetLODs(lods);
+        group.RecalculateBounds();
+        group.size = 150;
+
+        //Adds collider
         NewIsland.AddComponent<MeshCollider>().sharedMesh = _meshData.mesh;
+
+        //Add to dictionary
+        IslandInfo.Add(NewIsland, TextureGenerator.TextureFromColourMap(colourMap, mapChunkSize, mapChunkSize));         
+        
+       
 
         return display;
     }

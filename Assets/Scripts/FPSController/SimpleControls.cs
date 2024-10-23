@@ -31,7 +31,7 @@ public partial class @SimpleControls: IInputActionCollection2, IDisposable
                     ""name"": ""fire"",
                     ""type"": ""Button"",
                     ""id"": ""1077f913-a9f9-41b1-acb3-b9ee0adbc744"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": ""Tap,SlowTap"",
                     ""initialStateCheck"": false
@@ -67,6 +67,24 @@ public partial class @SimpleControls: IInputActionCollection2, IDisposable
                     ""name"": ""Interact"",
                     ""type"": ""Value"",
                     ""id"": ""e9fac068-36e3-4a04-acf9-fff12f466980"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""drop"",
+                    ""type"": ""Button"",
+                    ""id"": ""03e4ef57-4f3e-472a-9914-f06e7c1aa14b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwapWeapon"",
+                    ""type"": ""Value"",
+                    ""id"": ""5a4d1cf7-5f02-42e6-aab5-d5a207b3c36d"",
                     ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -194,6 +212,83 @@ public partial class @SimpleControls: IInputActionCollection2, IDisposable
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8e8f8589-b197-4782-90f0-a72ef06d6c93"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""drop"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f046999c-76ed-46a3-9a2c-dd3ac8d99c84"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale"",
+                    ""groups"": """",
+                    ""action"": ""SwapWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2755b911-af04-4a42-92c6-0283c809060d"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=2)"",
+                    ""groups"": """",
+                    ""action"": ""SwapWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""241c082d-1513-4cf7-996c-327bc1228f6c"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=3)"",
+                    ""groups"": """",
+                    ""action"": ""SwapWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ea0d2d17-d150-44f1-a9fc-1c85bd7c5c03"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=4)"",
+                    ""groups"": """",
+                    ""action"": ""SwapWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4daa88fb-c38e-4c05-98fb-bb4b42dd4a6e"",
+                    ""path"": ""<Keyboard>/b"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=4)"",
+                    ""groups"": """",
+                    ""action"": ""SwapWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""92e6e3b6-f494-4173-b010-63a4e26141fe"",
+                    ""path"": ""<Keyboard>/5"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=5)"",
+                    ""groups"": """",
+                    ""action"": ""SwapWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -207,6 +302,8 @@ public partial class @SimpleControls: IInputActionCollection2, IDisposable
         m_gameplay_Look = m_gameplay.FindAction("Look", throwIfNotFound: true);
         m_gameplay_Jump = m_gameplay.FindAction("Jump", throwIfNotFound: true);
         m_gameplay_Interact = m_gameplay.FindAction("Interact", throwIfNotFound: true);
+        m_gameplay_drop = m_gameplay.FindAction("drop", throwIfNotFound: true);
+        m_gameplay_SwapWeapon = m_gameplay.FindAction("SwapWeapon", throwIfNotFound: true);
     }
 
     ~@SimpleControls()
@@ -278,6 +375,8 @@ public partial class @SimpleControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_gameplay_Look;
     private readonly InputAction m_gameplay_Jump;
     private readonly InputAction m_gameplay_Interact;
+    private readonly InputAction m_gameplay_drop;
+    private readonly InputAction m_gameplay_SwapWeapon;
     public struct GameplayActions
     {
         private @SimpleControls m_Wrapper;
@@ -287,6 +386,8 @@ public partial class @SimpleControls: IInputActionCollection2, IDisposable
         public InputAction @Look => m_Wrapper.m_gameplay_Look;
         public InputAction @Jump => m_Wrapper.m_gameplay_Jump;
         public InputAction @Interact => m_Wrapper.m_gameplay_Interact;
+        public InputAction @drop => m_Wrapper.m_gameplay_drop;
+        public InputAction @SwapWeapon => m_Wrapper.m_gameplay_SwapWeapon;
         public InputActionMap Get() { return m_Wrapper.m_gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -311,6 +412,12 @@ public partial class @SimpleControls: IInputActionCollection2, IDisposable
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
+            @drop.started += instance.OnDrop;
+            @drop.performed += instance.OnDrop;
+            @drop.canceled += instance.OnDrop;
+            @SwapWeapon.started += instance.OnSwapWeapon;
+            @SwapWeapon.performed += instance.OnSwapWeapon;
+            @SwapWeapon.canceled += instance.OnSwapWeapon;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -330,6 +437,12 @@ public partial class @SimpleControls: IInputActionCollection2, IDisposable
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
+            @drop.started -= instance.OnDrop;
+            @drop.performed -= instance.OnDrop;
+            @drop.canceled -= instance.OnDrop;
+            @SwapWeapon.started -= instance.OnSwapWeapon;
+            @SwapWeapon.performed -= instance.OnSwapWeapon;
+            @SwapWeapon.canceled -= instance.OnSwapWeapon;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -354,5 +467,7 @@ public partial class @SimpleControls: IInputActionCollection2, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnDrop(InputAction.CallbackContext context);
+        void OnSwapWeapon(InputAction.CallbackContext context);
     }
 }
