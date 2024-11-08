@@ -125,7 +125,7 @@ public class MapGenerator : MonoBehaviour
         while (!isValidSpawn)
         {
             spawnOffset = new Vector3((int)UnityEngine.Random.Range(SpawnBounds.x, -SpawnBounds.x), 0, (int)UnityEngine.Random.Range(SpawnBounds.y, -SpawnBounds.y));
-            int objInArea = Physics.OverlapSphereNonAlloc(spawnOffset, (mapChunkSize * 5), hit);
+            int objInArea = Physics.OverlapSphereNonAlloc(spawnOffset, (mapChunkSize * 2.5f), hit);
             timeOut++;
 
             if (hit[0] == null)

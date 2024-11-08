@@ -3344,7 +3344,7 @@ MonoBehaviour:
   a: 2.22
   b: 1
   IslandIntencity: 6
-  SpawnBounds: {x: 5000, y: 5000}
+  SpawnBounds: {x: 2000, y: 2000}
   successfulIslandSpawns: 0
 --- !u!4 &1696101962
 Transform:

@@ -50,7 +50,7 @@ public class ObjSpawn : MonoBehaviour
         for (int i = 0; i < objDense; i++)
         {
             GameObject NewBeachObj = Instantiate(spawnobjs[Random.Range(0, spawnobjs.Count)], Terrain.transform, false);  
-            int random = Random.Range(0, vertsInRegion.Count-1);
+            int random = Random.Range(0, vertsInRegion.Count);
             NewBeachObj.transform.localPosition = vertsInRegion[random];
             NewBeachObj.transform.localScale = Vector3.one * 0.5f;
             NewBeachObj.transform.localEulerAngles = new Vector3(0, Random.Range(-360, 360), 0);
