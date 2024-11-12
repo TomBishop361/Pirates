@@ -1,19 +1,94 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Collections;
 using UnityEngine;
+using Unity.Mathematics;
+using UnityEngine.EventSystems;
+using System;
+using UnityEngine.Rendering;
+
 
 public class IKPMovement : MonoBehaviour
 {
-    public GameObject[] StaticTargets;
+    public float bodyHeight = 0.15f;    
+    public GameObject[] TargetProjection;
     public GameObject[] IKTargets;
+    public Transform bodyTarget;
+    public float[] FootTiming = new float[8];
     [SerializeField]
     LayerMask layerMask;
-    //Vector3 HitVec3;
-   
+    List<float> HitList = new List<float>();
+    [Range(0f,1)]
+    public float StepTime = 1f;
+    public float StepDistance = 1f;
+    public float stepIntervals = 0.05f;
 
-    private void FixedUpdate()
+
+    
+    Vector3 PreviousWorldLocation;
+    
+    public Vector3 Velocity;
+    
+
+    private void Start()
+    {        
+        PreviousWorldLocation = transform.position;
+
+        for (int i = 0; i < FootTiming.Length; i++)
+        {
+            FootTiming[i] = i*stepIntervals;
+
+        }
+
+    }
+
+    private void Update()
     {
+        CalculateVelocity();
         LegMovement();
-        BodyTilt();
+        FootTime();
+        BodyMove();
+        
+        
+
+    }
+
+    void FootTime()
+    {
+        for (int i = 0; i < FootTiming.Length; i++)
+        {
+            FootTiming[i] += Time.deltaTime;
+            
+        }
+    }
+
+    void CalculateVelocity()
+    {
+        
+        if(transform.position != PreviousWorldLocation)
+        {
+
+            Velocity = Vector3.Lerp(Velocity, (transform.position - PreviousWorldLocation) / Time.deltaTime, 0.1f);
+            
+        }
+        else
+        {
+            Velocity = Vector3.Lerp(Velocity, Vector3.zero,1);
+            
+        }       
+        
+        PreviousWorldLocation = transform.position;
+        
+    }
+
+    void BodyMove()
+    {
+        RaycastHit hit;
+        Debug.DrawRay(bodyTarget.position + (Vector3.up*5), bodyTarget.transform.TransformDirection(Vector3.down) * 7);
+        if (Physics.Raycast(bodyTarget.position + (Vector3.up * 5), bodyTarget.transform.TransformDirection(Vector3.down), out hit, 10f, layerMask)){
+            
+            transform.position = hit.point + (bodyTarget.transform.TransformDirection(Vector3.up) * bodyHeight);
+        }
     }
 
     void BodyTilt()
@@ -40,45 +115,52 @@ public class IKPMovement : MonoBehaviour
 
         float Diff = RSumHeight - LSumHeight;
         float avg = (RSumHeight + LSumHeight) * 0.5f;
-        float height = avg ;
+        float height = avg + 0.15f;
 
-        offSet = new Vector3(transform.position.x, height, transform.position.z);
-        transform.position = offSet;
+
         transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y , -Diff*30);
-
+        //transform.position = new Vector3(transform.position.x, avg, transform.position.z);
     }
 
 
 
     void LegMovement()
     {
-        for (int i = 0; i < StaticTargets.Length; i++)
+         
+        for (int i = 0; i < IKTargets.Length; i++)
         {
-            Vector3 HitVec3;
-            RaycastHit hit;
-            if (Physics.Raycast(StaticTargets[i].transform.position, Vector3.down, out hit, Mathf.Infinity, layerMask))
-            {
-                HitVec3 = hit.point;                
-                if (Vector3.Distance(HitVec3, IKTargets[i].transform.position) > Random.Range(.75f, 1.75f))
-                {
+            Debug.DrawRay(TargetProjection[i].transform.position + (Vector3.up * 2), (Vector3.down + Vector3.ClampMagnitude(Velocity, StepDistance)) * 1000, Color.green);
 
-                    StartCoroutine(Move(IKTargets[i], HitVec3));
+            if (FootTiming[i] >= StepTime)
+            {
+              
+                RaycastHit hit;
+                if (Physics.Raycast(TargetProjection[i].transform.position, Vector3.down + Vector3.ClampMagnitude(Velocity,StepDistance), out hit, Mathf.Infinity, layerMask))
+                {
+                    Debug.DrawRay(TargetProjection[i].transform.position + (Vector3.up * 2), (Vector3.down + Vector3.ClampMagnitude(Velocity, StepDistance)) * hit.distance, Color.red);
+                    IKTargets[i].transform.position = Vector3.Lerp(IKTargets[i].transform.position, hit.point, RemapClamped(FootTiming[i], 0, 0.2f, 0, 1));
                 }
+                FootTiming[i] = 0;
             }
+            
         }
+        
+
     }
 
-    private IEnumerator Move(GameObject IKTarget, Vector3 HitVec3)
+    public static float RemapClamped(float aValue, float aIn1, float aIn2, float aOut1, float aOut2)
     {
-        float time = 0;
-        Vector3 IKTargetPos = IKTarget.transform.position;
-        while (time < 1f)
-        {            
-            time += Time.deltaTime * 10;
-            IKTarget.transform.position = Vector3.Lerp(IKTarget.transform.position, HitVec3, time);
-            yield return null;
+        float t = (aValue - aIn1) / (aIn2 - aIn1);
+        t = Mathf.Clamp(t,0,1);
+        return aOut1 + (aOut2 - aOut1) * t;
+    }
+
+
+    private void OnValidate()
+    {
+        if(StepTime < IKTargets.Length * stepIntervals)
+        {
+            StepTime = IKTargets.Length * stepIntervals + 0.05f;
         }
-
-
     }
 }
